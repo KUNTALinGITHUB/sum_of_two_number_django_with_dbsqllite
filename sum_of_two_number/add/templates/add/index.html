@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sum of two number</title>
+    <link rel="stylesheet" href="{% static "add/style.css" %}"> <!--this will not work because the bootstrap overwrite it -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container-md text-center">
+        <h3> Sum of two number </h3>
+    </div>
+    <br>
+    <div class="container-md ">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleInputfirstNumber" class="form-label">Input First Number</label>
+                <input type="number" class="form-control" id="exampleInputfirstNumber" name="number_one" required>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputsecoundNumber" class="form-label">Input Secound Number</label>
+                <input type="number" class="form-control" id="exampleInputsecoundNumber" name="number_two" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Result Table</button>
+        </form>
+    </div>
+    <br>
+    <br>
+    {% if all_result|length > 0 %}
+    <div class="container-md ">
+        <div class="container-md text-center">
+            <h3>Complete Operation Table </h3>
+        </div>
+        <br>
+        <div class="container-md ">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Operation No</th>
+                        <th>First Number</th>
+                        <th>Secound Number</th>
+                        <th>Result</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                {% for result in all_result %}
+                <tbody>
+                    <tr>
+                        <td>{{result.id}}</td>
+                        <td>{{result.number_one}}</td>
+                        <td>{{result.number_two}}</td>
+                        <td>{{result.result}}</td>
+                        <td><a href="{% url 'edit_operation' result.id %}" class="text-decoration-none">Edit</a></td>
+                        <td><a href="{% url 'delete_operstion' result.id %}" class="text-decoration-none text-danger">Delete</a></td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    {% endif %}
+    <br>
+    {% if alart %}
+    <div class="container-md text-center">
+        <div class="alert alert-success" role="alert">
+            Result display successfully
+        </div>
+    </div>
+    {% endif %}
+    <br>
+    <br>
+    <script src="{% static "add/script.js" %}"></script>
+</body>
+</html>
